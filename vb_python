@@ -1,0 +1,33 @@
+
+'''
+
+Private Sub Form_Load()
+    Set PythonUtils = CreateObject("PythonDemos.Utilities")
+    response = PythonUtils.SplitString("Hello from VB")
+    For Each Item In response
+        MsgBox Item
+    Next
+    
+    
+End Sub
+'''
+
+class PythonUtilities:
+
+    _public_methods_=['SplitString']
+    _reg_progid_='PythonDemos.Utilities'
+
+    # 使用"print (pythoncom.CreateGuid())" 得到一个自己的clsid，不要用下面这个！！
+    _reg_clsid_='{5FCAC95E-653A-484C-8568-A02D5E0256E8}'
+
+    def SplitString(self, val, item=None):
+        import string 
+        if item !=None: 
+            item=str(item)
+        val=str(val)
+        return val.split(item)
+
+if __name__=='__main__':
+    print ('Registering COM server...')
+    import win32com.server.register
+    win32com.server.register.UseCommandLine(PythonUtilities)
